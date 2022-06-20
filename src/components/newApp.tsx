@@ -1,0 +1,1 @@
+import {numero} from "./App.js"

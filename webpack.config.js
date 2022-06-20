@@ -1,19 +1,21 @@
 const path = require('path');
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].[contenthash].js",
     clean: true,
   },
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
-      Images: path.resolve("src", "static", "images"),
+      Images: path.resolve(__dirname, "src", "static", "images"),
     }
   },
   mode: "production",
@@ -38,7 +40,12 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: 'asset', //
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ]
   },
@@ -52,6 +59,20 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: "./static/[name].[contenthash].css",
+    }),
+    new ImageMinimizerPlugin({
+      minimizer: {
+        options: {
+          // Lossless optimization with custom option
+          // Feel free to experiment with options for better result for you
+          plugins: [
+            // ["gifsicle", { interlaced: true }],
+            ["jpegtran", { progressive: true }],
+            ["optipng", { optimizationLevel: 5 }],
+            // Svgo configuration here https://github.com/svg/svgo#configuration
+          ],
+        },
+      }
     }),
   ],
   optimization: {

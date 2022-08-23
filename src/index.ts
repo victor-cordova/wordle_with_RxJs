@@ -1,7 +1,5 @@
 import "../src/styles/main.css"
-import { asyncScheduler, from, fromEvent, interval, scheduled, Subject, Subscription, timer } from "rxjs";
-import { main } from "./topics/subject";
-import { COLOR } from "./models/color.enum";
+import { fromEvent, Subject } from "rxjs";
 import { View } from "./constructors/view.constructor";
 import { Wordle } from "./constructors/wordle.constructor";
 
@@ -16,19 +14,6 @@ const userLoses$ = new Subject();
 const onRestart$ = fromEvent<MouseEvent>(restartButton, "click");
 
 const wordleRows: Element[] = Array.from(document.querySelectorAll(".wordle__row"));
-
-const words: string[] = [
-	"atlas",
-	"mouse",
-	"vaso",
-	"lapiz",
-	"crema",
-	"pais",
-]
-
-// const compareWord: string[] = [];
-
-// main()
 
 const regex: RegExp = /[a-z]/i;
 
@@ -59,9 +44,7 @@ const observatorBackSpace = { //Se crea el observador que indica como usará la 
 		const keyPressed = event.key;
 
 		if (keyPressed === "Backspace") {
-			// wordle.alterIndex(false);
 			wordle.deleteLetter();
-			// wordle.alterIndex(false);
 		}
 	},
 	complete: () => {
@@ -76,7 +59,6 @@ const observatorEnter = {
 	next: (event: KeyboardEvent) => {
 		const keyPressed = event.key;
 
-		// console.log(keyPressed);
 		if (keyPressed === "Enter") {
 			wordle.colorGrid();
 		}
@@ -93,12 +75,6 @@ const observatorRestart = {
 	next: (event: MouseEvent) => {
 		console.log(event);
 		wordle.restartGame();
-		// const keyPressed = event.key;
-
-		// console.log(keyPressed);
-		// if (keyPressed === "Enter") {
-		// 	wordle.colorGrid();
-		// }
 	},
 	complete: () => {
 		console.log("There is no more events");
@@ -112,19 +88,18 @@ const observatorRestart = {
 onKeyMulti$.subscribe(observatorLetter);
 onKeyMulti$.subscribe(observatorBackSpace);
 onKeyMulti$.subscribe(observatorEnter);
-// onKey$.
+
 onKey$.subscribe(onKeyMulti$); //Se subscribe el observador al observable.
-// onKey$.subscribe(observatorBackSpace);
 
 onRestart$.subscribe(observatorRestart);
 userWin$.subscribe({
-	next: (value) => {
+	next: () => {
 		console.log("the user Won.")
 	}
 })
 
 userLoses$.subscribe({
-	next: (value) => {
+	next: () => {
 		console.log("the user Losed.")
 	}
 })

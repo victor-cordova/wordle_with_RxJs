@@ -27,25 +27,15 @@ class Wordle {
 	private alterWordle = (addingLetter: boolean): void => {
 
 		if (addingLetter) {
-			// if (this.maxIndex > this.index) {
 				this.alterIndex(true);
-			// }
-			// else {
-			// 	this.alterIndex(true, true);
-			// 	this.alterRowIndex(true);
-			// }
 		} else {
 			if (this.index !== 0) {
 				this.alterIndex(false);
-				// this.alterRowIndex(false);
 			}
-			// else if(this.index !== 0){
-			// 	// this.alterIndex(false);
-			// }
 		}
 	}
 
-	private resetCorrectWord = () => {
+	private resetCorrectWord = (): void => {
 		this.correcLetter = 0;
 	}
 
@@ -53,10 +43,8 @@ class Wordle {
 		return this.word?.includes(compareLetter);
 	}
 
-	private checkTry = () => {
+	private checkTry = (): void => {
 		if (this.correcLetter === this.maxIndex + 1) {
-			// console.log("There are some correct letters: " ,this.correcLetter);
-			// console.log("The max index is: " ,this.maxIndex);
 			this.userWin$.next(null);
 			this.onKeyMulti$.unsubscribe();
 		} else if (this.rowIndex === this.maxRow) {
@@ -66,54 +54,37 @@ class Wordle {
 	}
 
 	//Alter DOM
-	public colorGrid() {
+	public colorGrid(): void {
 		for (let index = 0; index <= this.maxIndex; index++) {
-			// console.log(compareWord[index]);
-			// console.log(compareWord);
-			// userWin$.next(null);
 			if (this.letterExist(this.compareWord[index]) && this.word) {
 				if (this.compareWord[index] === this.word[index]) {
 					this.view.colorLetter(COLOR.green, index, this.rowIndex);
-					// this.colorLetter(COLOR.green, index);
 					this.correcLetter+=1;
 				} else {
 					this.view.colorLetter(COLOR.yellow, index, this.rowIndex);
-					// this.colorLetter(COLOR.yellow, index);
-					// this.
 				}
 			} else {
-				// console.log("hola")
 				this.view.colorLetter(COLOR.grey, index, this.rowIndex);
 			}
-			// console.log("There are some correct letters: " ,this.correcLetter);
-			// console.log("The max index is: " ,this.maxIndex);
 		}
 		this.checkTry()
-		// if (this.correcLetter === this.maxIndex + 1) {
-		// 	// console.log("There are some correct letters: " ,this.correcLetter);
-		// 	// console.log("The max index is: " ,this.maxIndex);
-		// 	userWin$.next(null);
-		// }
-		// this.alterIndex(true, true);
-		// this.alterRowIndex(true);
 		this.readyNextArrow();
-		// this.resetCorrectWord();
 	}
 
-	private resetCompareWord = () => {
+	private resetCompareWord = (): void => {
 		while (this.compareWord.length > 0) {
 			this.compareWord.pop();
 		}
 	}
 
-	private readyNextArrow = () => {
+	private readyNextArrow = (): void => {
 		this.alterIndex(true, true);
 		this.alterRowIndex(true);
 		this.resetCorrectWord();
 		this.resetCompareWord();
 	}
 
-	public restartGame = () => {
+	public restartGame = (): void => {
 
 		this.chooseWord();
 		this.alterIndex(true, true);
@@ -122,7 +93,7 @@ class Wordle {
 		this.view.resetGrid();
 	}
 
-	public chooseWord = () => {
+	public chooseWord = (): void => {
 		this.word = WORD_LIST[getRandomNumber(WORD_LIST.length)].split("");
 		console.log(this.word);
 	}
@@ -139,7 +110,7 @@ class Wordle {
 	};
 
 	//Alter DOM
-	public deleteLetter = () => {
+	public deleteLetter = (): void => {
 		this.alterWordle(false);
 		this.view.deleteLetter(this.rowIndex, this.index);
 	};

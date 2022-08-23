@@ -20,8 +20,8 @@ class View {
 	}
 
 	public resetGrid = (): void => {
-		for (let row = 0; row <= this.maxRow; row++) {
-			for (let index = 0; index <= this.maxIndex; index++) {
+		for (let row = 0; row < this.maxRow; row++) {
+			for (let index = 0; index < this.maxIndex; index++) {
 				this.removeColorLetter(index, row);
 				this.wordleRows[row].children[index].textContent = " ";
 			}
@@ -29,11 +29,17 @@ class View {
 	}
 
 	public deleteLetter = (row: number, index: number): void => {
-		this.wordleRows[row].children[index].textContent = " ";
+		if (row < this.maxRow) {
+			this.wordleRows[row].children[index].textContent = " ";
+		}
 	};
 
 	public writeLetter = (letter: string, row: number, index: number) => {
-		this.wordleRows[row].children[index].textContent = letter;
+		if (row < this.maxRow) {
+			// console.log(row)
+			// console.log(this.maxRow)
+			this.wordleRows[row].children[index].textContent = letter;
+		}
 	}
 }
 

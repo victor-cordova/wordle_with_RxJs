@@ -2,6 +2,7 @@ import "../src/styles/main.css"
 import { fromEvent, Subject } from "rxjs";
 import { View } from "./constructors/view.constructor";
 import { Wordle } from "./constructors/wordle.constructor";
+import { main } from "./topics/operatores";
 
 const onKey$ = fromEvent<KeyboardEvent>(document, "keydown"); //Se crea el observable que lanza un
 //evento cuando se presione una tecla.
@@ -103,3 +104,5 @@ userLoses$.subscribe({
 		console.log("the user Losed.")
 	}
 })
+
+// main();

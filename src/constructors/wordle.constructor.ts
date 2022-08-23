@@ -46,9 +46,9 @@ class Wordle {
 	private checkTry = (): void => {
 		if (this.correcLetter === this.maxIndex + 1) {
 			this.userWin$.next(null);
-			this.onKeyMulti$.unsubscribe();
+			// this.onKeyMulti$.unsubscribe();
 		} else if (this.rowIndex === this.maxRow) {
-			this.onKeyMulti$.unsubscribe();
+			// this.onKeyMulti$.unsubscribe();
 			this.userLoses$.next(null);
 		}
 	}
@@ -94,6 +94,7 @@ class Wordle {
 	}
 
 	public chooseWord = (): void => {
+		// console.log(WORD_LIST.length);
 		this.word = WORD_LIST[getRandomNumber(WORD_LIST.length)].split("");
 		console.log(this.word);
 	}

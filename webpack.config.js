@@ -6,14 +6,14 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].[contenthash].js",
     clean: true,
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".js", ".ts"],
     alias: {
       Images: path.resolve(__dirname, "src", "static", "images"),
     }
@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(m?js|jsx)$/,
+        test: /\.(m?js)$/,
         exclude: /node_modules/,
         use: {
             loader: "babel-loader"
@@ -34,18 +34,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 
+        use: [MiniCssExtractPlugin.loader,
         "css-loader",
         ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset', //
-      },
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
       },
     ]
   },

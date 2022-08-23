@@ -3,23 +3,26 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].[contenthash].js",
     clean: true,
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".js", ".ts"],
     alias: {
       Images: path.resolve("src", "static", "images"),
     }
   },
+
+	devtool: 'inline-source-map',
+
   mode: "development",
   module: {
     rules: [
       {
-        test: /\.(m?js|jsx)$/,
+        test: /\.(m?js)$/,
         exclude: /node_modules/,
         use: {
             loader: "babel-loader"
@@ -31,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 
+        use: [MiniCssExtractPlugin.loader,
         "css-loader",
         ],
       },
@@ -40,7 +43,7 @@ module.exports = {
         type: 'asset/resource',
       },
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
@@ -64,5 +67,6 @@ module.exports = {
     },
     compress: true,
     port: 9000,
+		historyApiFallback: true,
   },
 };

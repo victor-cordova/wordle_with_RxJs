@@ -1,1 +1,1 @@
-# settings-webpack-react-typescript
+# Wordle with RxJs
